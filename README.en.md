@@ -99,6 +99,23 @@ Stuck? → [Troubleshooting](docs/en/troubleshooting.md)
 - A **GitHub account** (Codespaces recommended — nothing to install)
 - (If working locally) Python 3.10+, Azure CLI 2.60+, Docker (optional), Git
 
+## 💰 Estimated cost
+
+Paid resources created in the labs and their approximate cost (Korea Central, pay-as-you-go; **rough estimates for reference only** — prices vary over time. Check the [Azure pricing calculator](https://azure.microsoft.com/pricing/calculator/) for exact figures).
+
+| Resource | SKU / settings | Approximate cost |
+|---|---|---|
+| Azure Container Registry | Basic | ~$0.17/day (~$5/month) |
+| PostgreSQL Flexible Server | Burstable B1ms + 32 GiB | ~$0.5–0.7/day (~$15–20/month) |
+| Container Apps | Consumption, 0.5 vCPU / 1 GiB, up to 5 replicas | Mostly within the monthly free grant (180,000 vCPU-s, 360,000 GiB-s, 2M requests) |
+| Log Analytics | Pay-as-you-go | Lab-scale log volume is practically free |
+| Managed Identity | User-assigned | Free |
+
+- **A one-day workshop (3–4 hours) typically costs under $1 in total.**
+- If you skip Lab 8 and leave everything running, expect roughly **$20–25/month**.
+- ✅ When you finish, delete the resource group with [Lab 8 — Cleanup](docs/en/lab8-cleanup.md).
+- Free-account credits or Visual Studio/MSDN subscription credits are enough to complete the labs.
+
 ## Getting started
 
 1. **Fork** this repository (needed for the Lab 7 CI/CD exercise).
@@ -106,3 +123,7 @@ Stuck? → [Troubleshooting](docs/en/troubleshooting.md)
 3. Start with [Lab 0](docs/en/lab0-setup.md).
 
 > 💡 **Facilitator tip:** Every lab ends with a ✅ **checkpoint**. If someone can't pass it, have them compare with `solution/`. Creating PostgreSQL (Lab 5) takes 5–10 minutes, so start it before Lab 4 to save time.
+
+## 📄 License
+
+[MIT License](LICENSE) — free to use, modify, and redistribute. The sample app (Contoso Inventory) is a fictional example, and Azure charges are billed to your own subscription.

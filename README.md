@@ -97,6 +97,23 @@ flowchart LR
 - **GitHub 계정** (Codespaces 사용 권장 — 별도 설치 불필요)
 - (로컬에서 진행할 경우) Python 3.10+, Azure CLI 2.60+, Docker(선택), Git
 
+## 💰 예상 비용
+
+실습에서 만드는 유료 리소스와 대략적인 비용입니다 (Korea Central, 종량제 기준 **참고용 추정치**이며 시기·환경에 따라 달라집니다. 정확한 금액은 [Azure 가격 계산기](https://azure.microsoft.com/pricing/calculator/)로 확인하세요).
+
+| 리소스 | SKU / 설정 | 대략적인 비용 |
+|---|---|---|
+| Azure Container Registry | Basic | 약 $0.17/일 (~$5/월) |
+| PostgreSQL Flexible Server | Burstable B1ms + 32 GiB | 약 $0.5~0.7/일 (~$15~20/월) |
+| Container Apps | Consumption, 0.5 vCPU / 1 GiB, 최대 5 replica | 월 무료 제공량(180,000 vCPU-초, 360,000 GiB-초, 200만 요청) 내에서 대부분 무료 수준 |
+| Log Analytics | Pay-as-you-go | 실습 규모의 로그량은 거의 무료 수준 |
+| Managed Identity | User-assigned | 무료 |
+
+- **하루 실습(3~4시간) 총 비용: 보통 $1 미만**
+- Lab 8을 건너뛰고 방치하면 **월 $20~25 내외**가 계속 청구됩니다.
+- ✅ 실습이 끝나면 반드시 [Lab 8 정리](docs/lab8-cleanup.md)로 리소스 그룹을 삭제하세요.
+- 신규 Azure 무료 계정의 크레딧이나 Visual Studio/MSDN 구독 크레딧으로도 충분히 진행할 수 있습니다.
+
 ## 시작하기
 
 1. 이 저장소를 **Fork** 합니다 (Lab 7 CI/CD 실습을 위해 필요).
@@ -104,3 +121,7 @@ flowchart LR
 3. [Lab 0](docs/lab0-setup.md) 부터 시작합니다.
 
 > 💡 **진행자 팁**: 각 Lab 끝에 ✅ **체크포인트**가 있습니다. 참석자가 체크포인트를 통과하지 못하면 `solution/` 과 비교하도록 안내하세요. Lab 5(PostgreSQL 생성)는 5~10분 걸리므로 Lab 4 시작 전에 미리 만들어 두면 시간이 절약됩니다.
+
+## 📄 라이선스
+
+[MIT License](LICENSE) — 자유롭게 사용·수정·재배포할 수 있습니다. 이 실습의 샘플 앱(Contoso Inventory)은 가상의 예제이며, Azure 비용은 사용자 구독에 청구됩니다.
