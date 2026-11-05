@@ -1,0 +1,27 @@
+{
+  "name": "Azure Container Apps Modernization Lab",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli:1": {
+      "extensions": "containerapp"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "postCreateCommand": "az config set extension.use_dynamic_install=yes_without_prompt extension.dynamic_install_allow_preview=true core.only_show_errors=true",
+  "forwardPorts": [8000, 8080],
+  "portsAttributes": {
+    "8080": { "label": "Legacy app (python app.py)" },
+    "8000": { "label": "Container (docker run)" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-azuretools.vscode-docker",
+        "ms-azuretools.vscode-azurecontainerapps",
+        "GitHub.copilot"
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+# 참고용: 온프렘 VM(Ubuntu)에서 앱을 실행하던 systemd 서비스 파일입니다.
+# 이 실습에서는 실행하지 않습니다. "VM에서는 이렇게 운영했다"를 이해하기 위한 자료입니다.
+#
+# 설치 순서 (예전 운영 절차)
+#   1. VM 에 SSH 접속
+#   2. sudo apt install python3-venv
+#   3. 소스 복사:   scp -r app/ admin@onprem-vm:/opt/contoso-inventory
+#   4. venv 생성:   python3 -m venv venv && venv/bin/pip install -r requirements.txt
+#   5. config.py 를 운영 환경에 맞게 직접 수정 (DB 경로, 로그 경로 ...)
+#   6. 이 파일을 /etc/systemd/system/ 에 복사 후 systemctl enable --now contoso-inventory
+#   7. 배포할 때마다 1~6 을 사람이 수작업으로 반복, 로그는 VM 에 들어가 tail -f 로 확인
+#   8. 디스크 백업 / OS 패치 / 장애 시 재기동 모두 운영팀 책임
+
+[Unit]
+Description=Contoso Inventory (Flask)
+After=network.target
+
+[Service]
+User=inventory
+WorkingDirectory=/opt/contoso-inventory
+ExecStart=/opt/contoso-inventory/venv/bin/python app.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

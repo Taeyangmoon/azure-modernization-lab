@@ -1,0 +1,49 @@
+name: Deploy to Azure Container Apps
+
+# 실습 7에서 이 파일을 .github/workflows/deploy.yml 로 복사해서 사용합니다.
+on:
+  push:
+    branches: [main]
+    paths: ["app/**"]
+  workflow_dispatch:
+
+permissions:
+  id-token: write   # Azure 와 OIDC(비밀번호 없는) 로그인에 필요
+  contents: read
+
+env:
+  IMAGE_NAME: inventory
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build image in ACR
+        run: |
+          az acr build \
+            --registry "${{ vars.ACR_NAME }}" \
+            --image "$IMAGE_NAME:${{ github.sha }}" \
+            ./app
+
+      - name: Deploy new revision
+        run: |
+          az containerapp update \
+            --name "${{ vars.APP_NAME }}" \
+            --resource-group "${{ vars.RESOURCE_GROUP }}" \
+            --image "${{ vars.ACR_NAME }}.azurecr.io/$IMAGE_NAME:${{ github.sha }}"
+
+      - name: Show app URL
+        run: |
+          az containerapp show \
+            --name "${{ vars.APP_NAME }}" \
+            --resource-group "${{ vars.RESOURCE_GROUP }}" \
+            --query "properties.configuration.ingress.fqdn" -o tsv

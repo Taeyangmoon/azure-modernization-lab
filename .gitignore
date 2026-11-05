@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+credential.json
+
+# 실습 중 로컬 실행으로 생기는 파일
+app/data/
+app/logs/
+solution/data/
+solution/logs/

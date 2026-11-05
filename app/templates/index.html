@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contoso Inventory</title>
+  <style>
+    body { font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif; margin: 0; background: #f5f5f5; color: #222; }
+    header { background: {{ banner_color }}; color: #fff; padding: 16px 32px; }
+    header h1 { margin: 0; font-size: 22px; }
+    header small { opacity: .85; }
+    main { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+    .card { background: #fff; border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid #eee; }
+    form.inline { display: flex; gap: 8px; flex-wrap: wrap; }
+    input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 8px 14px; border: 0; border-radius: 4px; background: {{ banner_color }}; color: #fff; cursor: pointer; }
+    button.danger { background: #c4314b; }
+    .info { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+    .info td { border: 0; padding: 2px 8px 2px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📦 Contoso Inventory</h1>
+    <small>version {{ info.version }}</small>
+  </header>
+  <main>
+    <div class="card">
+      <h3>재고 등록</h3>
+      <form class="inline" method="post" action="{{ url_for('add_item') }}">
+        <input name="name" placeholder="품목명" required>
+        <input name="quantity" type="number" min="0" placeholder="수량" value="1" required>
+        <input name="location" placeholder="보관 위치">
+        <button type="submit">추가</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>재고 목록 ({{ items|length }})</h3>
+      <table>
+        <thead><tr><th>#</th><th>품목</th><th>수량</th><th>위치</th><th></th></tr></thead>
+        <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.location }}</td>
+            <td>
+              <form method="post" action="{{ url_for('delete_item', item_id=item.id) }}">
+                <button class="danger" type="submit">삭제</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>실행 환경 정보</h3>
+      <table class="info">
+        <tr><td>hostname</td><td><b>{{ info.hostname }}</b></td></tr>
+        <tr><td>version</td><td><b>{{ info.version }}</b></td></tr>
+        <tr><td>db backend</td><td><b>{{ info.db_backend }}</b></td></tr>
+        <tr><td>uptime</td><td><b>{{ info.uptime_seconds }}s</b></td></tr>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
