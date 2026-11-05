@@ -1,5 +1,7 @@
 # Lab 8. 리소스 정리 (5분)
 
+🌐 [English](en/lab8-cleanup.md) | **한국어**
+
 실습에서 만든 리소스는 비용이 발생합니다 (특히 PostgreSQL, ACR). **반드시 삭제**하세요.
 
 ## 8-1. Azure 리소스 삭제

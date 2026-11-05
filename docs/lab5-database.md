@@ -1,5 +1,7 @@
 # Lab 5. PostgreSQL로 데이터 현대화 (30분)
 
+🌐 [English](en/lab5-database.md) | **한국어**
+
 ## 목표
 - **Azure Database for PostgreSQL Flexible Server** 를 만든다.
 - 온프렘 SQLite 데이터(Lab 1 의 `inventory.db`)를 PostgreSQL 로 **이전**한다.
@@ -97,7 +99,7 @@ python tools/migrate_sqlite_to_postgres.py \
 
 ```
   items: 13 rows copied
-완료! 대상 DB 테이블: items
+Done! Target tables / 완료! 대상 DB 테이블: items
 ```
 
 > 스크립트가 하는 일: ① 원본(SQLite) 스키마를 읽어서 PostgreSQL 에 같은 테이블 생성 ② 모든 행 복사 ③ `id` 자동 증가 시퀀스를 최대값으로 맞춤 (이걸 안 하면 이전 후 첫 INSERT 가 `duplicate key` 로 실패합니다)

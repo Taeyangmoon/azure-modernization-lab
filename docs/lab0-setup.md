@@ -1,5 +1,7 @@
 # Lab 0. 환경 준비 (15분)
 
+🌐 [English](en/lab0-setup.md) | **한국어**
+
 ## 목표
 - 실습 환경(Codespaces) 열기
 - Azure 로그인 & 필요한 Resource Provider 등록

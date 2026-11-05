@@ -1,5 +1,7 @@
 # Lab 3. Azure 리소스 만들기 & 이미지 빌드 (20분)
 
+🌐 [English](en/lab3-azure-resources.md) | **한국어**
+
 ## 목표
 - 리소스 그룹, **Container Registry(ACR)**, **Log Analytics**, **Container Apps 환경**, **Managed Identity** 를 만든다.
 - 내 PC/Codespaces 에 Docker 가 없어도 **ACR Tasks** 로 이미지를 클라우드에서 빌드한다.

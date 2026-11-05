@@ -1,5 +1,7 @@
 # Lab 4. Container Apps 배포 & "상태 문제" 체험 (25분)
 
+🌐 [English](en/lab4-deploy.md) | **한국어**
+
 ## 목표
 - 이미지를 Container Apps 로 배포하고 HTTPS URL 로 접속한다.
 - **로컬 SQLite 를 쓰는 앱이 스케일 아웃되면 어떤 일이 생기는지** 직접 확인한다. (→ Lab 5 의 동기)

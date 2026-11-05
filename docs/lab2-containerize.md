@@ -1,5 +1,7 @@
 # Lab 2. 코드 수정 + Dockerfile 작성 (30분)
 
+🌐 [English](en/lab2-containerize.md) | **한국어**
+
 ## 목표
 - 앱을 **최소한으로 수정**해 클라우드 네이티브 원칙(설정=환경변수, 로그=stdout)을 따르게 한다.
 - 운영용 웹 서버(gunicorn)와 **Dockerfile** 을 추가한다.

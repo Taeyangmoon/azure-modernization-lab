@@ -1,5 +1,7 @@
 # 트러블슈팅
 
+🌐 [English](en/troubleshooting.md) | **한국어**
+
 ## 공통
 
 | 증상 | 원인 / 해결 |

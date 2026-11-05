@@ -1,5 +1,7 @@
 # Lab 7. (선택) GitHub Actions 로 CI/CD 만들기 (20분)
 
+🌐 [English](en/lab7-cicd.md) | **한국어**
+
 ## 목표
 - `main` 브랜치에 푸시하면 **자동으로 빌드 → ACR 푸시 → Container Apps 새 리비전 배포** 되게 한다.
 - Azure 비밀번호/키를 GitHub 에 저장하지 않는 **OIDC(Workload Identity Federation)** 로그인을 구성한다.

@@ -1,5 +1,7 @@
 # 🚀 온프렘 Python 앱을 Azure Container Apps로 현대화하기 (Hands-on Lab)
 
+🌐 [English](README.en.md) | **한국어**
+
 온프렘 VM에서 `python app.py` 로 돌던 Flask 앱을 **컨테이너화**하고, **Azure Container Apps**에 배포하고, **관리형 DB(PostgreSQL)**·**오토스케일**·**무중단 배포**·**CI/CD**까지 적용해 보는 실습입니다.
 
 > ⏱️ 소요 시간: 약 2.5 ~ 3시간 (선택 실습 포함) · 💰 예상 비용: 실습 중 몇 달러 이내, 마지막에 리소스 그룹 삭제 · 🌐 언어: 한국어
@@ -69,7 +71,7 @@ flowchart LR
 │   ├── migrate_sqlite_to_postgres.py   # 데이터 이전 스크립트
 │   └── loadtest.py                     # 설치 없이 쓰는 부하 생성기
 ├── scripts/env.sh          # 실습 전체에서 쓰는 변수 정의 (source 해서 사용)
-├── docs/                   # 📚 실습 가이드 (순서대로 진행)
+├── docs/                   # 📚 실습 가이드 (순서대로 진행). 영어 버전: docs/en/
 └── .devcontainer/          # GitHub Codespaces / Dev Container 설정
 ```
 

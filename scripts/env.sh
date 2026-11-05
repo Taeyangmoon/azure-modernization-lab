@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
-# 실습 전체에서 쓰는 변수를 한 번에 정의합니다.
-# 사용법:  source scripts/env.sh      (새 터미널을 열 때마다 다시 실행)
+# Defines every variable used throughout the lab. / 실습 전체에서 쓰는 변수를 한 번에 정의합니다.
+# Usage / 사용법:  source scripts/env.sh   (re-run in every new terminal / 새 터미널마다 다시 실행)
 #
+# On first run a unique suffix and a DB password are generated and saved to ~/.aca-lab.env,
+# so the same names/password are reused when you open a new terminal.
 # 최초 1회 실행 시 고유 접미사(suffix)와 DB 비밀번호를 생성해 ~/.aca-lab.env 에 저장하므로,
 # 터미널을 다시 열어도 같은 이름/비밀번호가 재사용됩니다.
 
 LAB_ENV_FILE="${HOME}/.aca-lab.env"
 
 if [ ! -f "$LAB_ENV_FILE" ]; then
-  SUFFIX="$(openssl rand -hex 3)"                      # 예: a1b2c3 (ACR/DB 이름 중복 방지)
-  PG_PASSWORD="Lab$(openssl rand -hex 8)x9"            # 영문+숫자만 사용 (URL 인코딩 이슈 방지)
+  SUFFIX="$(openssl rand -hex 3)"                      # e.g. a1b2c3 (keeps ACR/DB names globally unique / 이름 중복 방지)
+  PG_PASSWORD="Lab$(openssl rand -hex 8)x9"            # letters+digits only (avoids URL-encoding issues / URL 인코딩 이슈 방지)
   cat > "$LAB_ENV_FILE" <<EOF
 SUFFIX=$SUFFIX
 PG_PASSWORD=$PG_PASSWORD
