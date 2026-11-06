@@ -48,11 +48,17 @@ az role assignment create \
   --scope $(az group show -n $RG --query id -o tsv) -o table
 
 # 3) A federated credential that trusts only "workflows run from the main branch of my repo"
+#    Recently created repos use immutable subjects (repo:<owner>@<ID>/<repo>@<ID>), so look up
+#    the prefix GitHub actually issues. (Falls back to repo:<owner>/<repo> if the lookup fails.)
+SUB_PREFIX=$(gh api repos/$GH_REPO/actions/oidc/customization/sub --jq '.sub_claim_prefix // empty' 2>/dev/null)
+SUB_PREFIX=${SUB_PREFIX:-repo:$GH_REPO}
+echo $SUB_PREFIX
+
 cat > credential.json <<EOF
 {
   "name": "github-main",
   "issuer": "https://token.actions.githubusercontent.com",
-  "subject": "repo:${GH_REPO}:ref:refs/heads/main",
+  "subject": "${SUB_PREFIX}:ref:refs/heads/main",
   "audiences": ["api://AzureADTokenExchange"]
 }
 EOF

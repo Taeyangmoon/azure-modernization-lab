@@ -87,7 +87,7 @@ python3 tools/loadtest.py $APP_URL --duration 120 --concurrency 100
 
 **Observe**
 - **30–60 seconds** after the load starts, replicas go 2 → 3 → … up to 5.
-- The **"Replicas that responded"** line in the `loadtest.py` result matches the number of replicas. (Requests were spread over several instances.)
+- The **"Replicas that responded"** line in the `loadtest.py` result is close to the number of replicas. (Requests were spread over several instances; right after the scale rule is applied, a replica of the previous revision may briefly be counted too, so you can see one extra.)
 - About **5 minutes** after the load stops, it scales back in to 1 (scale-in cooldown).
 
 > 💡 **Scale to zero**: with `--min-replicas 0` the app has zero replicas when idle, so the **cost is zero** (at the price of a cold start on the first request). Great for dev/test or occasionally used apps. We keep 1 in this lab.

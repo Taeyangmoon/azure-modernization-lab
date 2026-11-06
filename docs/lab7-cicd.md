@@ -48,11 +48,17 @@ az role assignment create \
   --scope $(az group show -n $RG --query id -o tsv) -o table
 
 # 3) "내 저장소의 main 브랜치에서 실행된 워크플로" 만 신뢰하는 Federated Credential
+#    최근 생성된 저장소는 subject 가 repo:<소유자>@<ID>/<저장소>@<ID> 형태(immutable subject)라서
+#    GitHub 이 실제로 쓰는 prefix 를 조회해서 사용합니다. (조회 실패 시 기존 repo:<소유자>/<저장소> 사용)
+SUB_PREFIX=$(gh api repos/$GH_REPO/actions/oidc/customization/sub --jq '.sub_claim_prefix // empty' 2>/dev/null)
+SUB_PREFIX=${SUB_PREFIX:-repo:$GH_REPO}
+echo $SUB_PREFIX
+
 cat > credential.json <<EOF
 {
   "name": "github-main",
   "issuer": "https://token.actions.githubusercontent.com",
-  "subject": "repo:${GH_REPO}:ref:refs/heads/main",
+  "subject": "${SUB_PREFIX}:ref:refs/heads/main",
   "audiences": ["api://AzureADTokenExchange"]
 }
 EOF

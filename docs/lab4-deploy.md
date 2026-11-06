@@ -83,6 +83,8 @@ for i in $(seq 1 10); do curl -s $APP_URL/api/items | python3 -c "import sys,jso
 
 항목 수가 12 와 13 으로 섞여 나옵니다.
 
+> 💡 두 번째 레플리카가 아직 준비 중이면 한쪽 값만 나올 수 있습니다. 30초 정도 기다렸다가 다시 실행하세요.
+
 ### 실험 2: 컨테이너 재시작
 
 ```bash

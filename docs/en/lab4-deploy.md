@@ -81,6 +81,8 @@ Wait until two replicas are listed, then:
 for i in $(seq 1 10); do curl -s $APP_URL/api/items | python3 -c "import sys,json; print(len(json.load(sys.stdin)), 'items')"; done
 ```
 
+> 💡 If the second replica is still starting, you may only see one value. Wait about 30 seconds and run it again.
+
 ### Experiment 2: restart the container
 
 ```bash

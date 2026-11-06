@@ -55,7 +55,7 @@ az postgres flexible-server create \
 az postgres flexible-server db create \
   --resource-group $RG \
   --server-name $PG_SERVER \
-  --database-name $PG_DB
+  --name $PG_DB
 ```
 
 ## 5-3. 내 환경에서 접속 허용 (마이그레이션용)

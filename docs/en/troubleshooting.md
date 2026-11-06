@@ -67,7 +67,7 @@ docker push $ACR_NAME.azurecr.io/inventory:v1
 
 | Symptom | Fix |
 |---|---|
-| `AADSTS70025` / `No matching federated identity record` | The federated credential `subject` must match `repo:<owner>/<repo>:ref:refs/heads/main` exactly (case-sensitive). Make sure your branch is `main` |
+| `AADSTS70025` / `AADSTS700213` / `No matching federated identity record` | The federated credential `subject` must exactly match the **`subject claim`** printed in the workflow's `Azure login` step (case-sensitive). Recently created repos use `repo:<owner>@<ID>/<repo>@<ID>:ref:refs/heads/main`, so use the `SUB_PREFIX` lookup from 7-1. Also make sure your branch is `main` |
 | `AuthorizationFailed` (workflow) | Check the service principal has Contributor on the resource group |
 | Push doesn't trigger the workflow | Changed files must be under `app/**`, or use **Run workflow** on the Actions tab |
 | Deployment succeeds but the page doesn't change | Multiple revision mode is still on → `az containerapp revision set-mode -n $APP_NAME -g $RG --mode single` |
