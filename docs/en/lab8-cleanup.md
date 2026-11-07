@@ -13,11 +13,13 @@ source scripts/env.sh
 az group delete --name $RG --yes --no-wait
 ```
 
-Confirm (when it prints `false` a few minutes later, it's done):
+Confirm completion (repeat until it prints `false`):
 
 ```bash
 az group exists --name $RG
 ```
+
+> The Container Apps environment can take longer to delete than the other resources and remain in `ScheduledForDelete`. A successful deletion request is not completed cleanup while this command still returns `true`. Keep the resource group name and confirm it eventually returns `false`.
 
 ## 8-2. (If you did Lab 7) Delete the Entra app registration
 

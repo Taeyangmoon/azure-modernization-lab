@@ -13,11 +13,13 @@ source scripts/env.sh
 az group delete --name $RG --yes --no-wait
 ```
 
-삭제 확인 (몇 분 후 `false` 가 나오면 완료):
+삭제 완료 확인 (`false` 가 나올 때까지 다시 확인):
 
 ```bash
 az group exists --name $RG
 ```
+
+> Container Apps 환경은 다른 리소스보다 늦게 삭제되어 `ScheduledForDelete` 상태로 남아 있을 수 있습니다. 삭제 요청 명령이 성공했어도 `true` 라면 정리가 끝난 것이 아닙니다. 리소스 그룹 이름을 기록해 두고 `false` 가 되는 것을 확인하세요.
 
 ## 8-2. (Lab 7 을 했다면) Entra 앱 등록 삭제
 
