@@ -43,7 +43,7 @@ az account show --query "{name:name, id:id}" -o table
 처음 쓰는 구독이면 아래 서비스 공급자를 등록해야 합니다. (이미 등록되어 있으면 바로 끝납니다.)
 
 ```bash
-for ns in Microsoft.App Microsoft.OperationalInsights Microsoft.ContainerRegistry Microsoft.DBforPostgreSQL; do
+for ns in Microsoft.App Microsoft.OperationalInsights Microsoft.ContainerRegistry Microsoft.DBforPostgreSQL Microsoft.ManagedIdentity; do
   az provider register --namespace $ns --wait
 done
 ```
@@ -63,6 +63,7 @@ SUFFIX=a1b2c3  RG=rg-aca-lab-a1b2c3  ACR=acrlaba1b2c3  APP=ca-inventory  PG=pg-l
 - 최초 실행 시 **고유 접미사**와 **DB 비밀번호**가 `~/.aca-lab.env` 에 저장됩니다. (ACR, DB 이름은 전 세계에서 유일해야 하기 때문)
 - **새 터미널을 열 때마다 `source scripts/env.sh` 를 다시 실행**하세요.
 - 리전을 바꾸고 싶다면 `export LOCATION=japaneast` 처럼 덮어쓰세요. (기본: `koreacentral`)
+- 기존 실습과 분리하려면 **source 전에** `export LAB_ENV_FILE="$HOME/.aca-lab-validation.env"` 를 지정하세요. 새 터미널에서도 같은 경로를 지정하고, Lab 8에서 이 파일만 삭제합니다.
 
 ## ✅ 체크포인트
 

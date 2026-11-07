@@ -12,7 +12,7 @@
 
 > 🇰🇷 Comments in the repo's source files are in Korean. The English comments below are translations — typing either is fine.
 
-Do all the work in the `app/` folder.
+Edit files under `app/`. **Start each command block at the repo root.** After a block that uses `cd app`, stop the app and run `cd ..` before the next block.
 
 ## 2-1. Settings from environment variables (`app/config.py`)
 

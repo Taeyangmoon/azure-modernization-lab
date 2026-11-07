@@ -85,12 +85,14 @@ watch -n 5 "az containerapp replica list -n $APP_NAME -g $RG --query '[].name' -
 python3 tools/loadtest.py $APP_URL --duration 120 --concurrency 100
 ```
 
+성공 응답이 있고 오류가 없을 때만 종료 코드가 `0` 입니다. 연결 실패·HTTP 오류·비정상 `/health` 응답은 실패로 집계하고 원인을 출력합니다. 오류가 있으면 앱 로그와 상태를 확인한 뒤 다시 실행하세요.
+
 **관찰**
 - 부하가 시작되고 **30~60초 뒤** 레플리카가 2 → 3 → … 최대 5개로 늘어납니다.
 - `loadtest.py` 결과의 **"응답한 레플리카 수"** 가 늘어난 레플리카 수와 비슷합니다. (요청이 여러 인스턴스에 분산됨. 스케일 규칙 적용 직후에는 이전 리비전의 레플리카가 잠깐 포함되어 1~2개 더 보일 수 있음)
 - 부하를 멈추면 약 **5분 후** 다시 1개로 줄어듭니다 (scale-in 쿨다운).
 
-> 💡 **Scale to zero**: `--min-replicas 0` 으로 설정하면 요청이 없을 때 레플리카가 0개가 되어 **비용이 0** 입니다. (대신 첫 요청에 콜드 스타트 지연) 개발/테스트 환경이나 간헐적 사용 앱에 유용합니다. 이 실습에서는 1로 유지합니다.
+> 💡 **Scale to zero**: `--min-replicas 0` 으로 설정하면 요청이 없을 때 레플리카가 0개가 되어 **앱의 레플리카 실행 비용이 발생하지 않습니다**. ACR·PostgreSQL·로그 등의 비용은 계속 발생합니다. (대신 첫 요청에 콜드 스타트 지연) 개발/테스트 환경이나 간헐적 사용 앱에 유용합니다. 이 실습에서는 1로 유지합니다.
 
 > 온프렘 VM 이라면? 피크 대비 서버를 미리 사 두거나, 증설에 수 주가 걸렸을 것입니다.
 
@@ -125,10 +127,10 @@ az containerapp update \
   -o none
 
 az containerapp revision list -n $APP_NAME -g $RG \
-  --query "[].{name:name, active:properties.active, traffic:properties.trafficWeight}" -o table
+  --query "[].{name:name, active:properties.active, traffic:properties.trafficWeight, health:properties.healthState}" -o table
 ```
 
-`green` 리비전이 **traffic 0** 으로 떠 있습니다. 사용자 영향 없이 새 버전이 준비된 상태입니다.
+`green` 리비전의 **traffic은 0** 입니다. `health` 가 아직 `None` 이면 준비 중이므로 위 조회를 다시 실행해 **`Healthy` 인 것을 확인한 뒤** 트래픽을 분할하세요. 사용자 영향 없이 새 버전을 준비할 수 있습니다.
 
 ### (3) 카나리: 80 / 20 으로 트래픽 분할
 

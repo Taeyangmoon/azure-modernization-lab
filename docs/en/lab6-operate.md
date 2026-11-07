@@ -85,12 +85,14 @@ Terminal B: 100 concurrent requests for 2 minutes
 python3 tools/loadtest.py $APP_URL --duration 120 --concurrency 100
 ```
 
+The exit code is `0` only when there are successful responses and no errors. Connection failures, HTTP errors and invalid `/health` responses count as failures and include diagnostics. Check app logs and health before retrying a failed run.
+
 **Observe**
 - **30–60 seconds** after the load starts, replicas go 2 → 3 → … up to 5.
 - The **"Replicas that responded"** line in the `loadtest.py` result is close to the number of replicas. (Requests were spread over several instances; right after the scale rule is applied, a replica of the previous revision may briefly be counted too, so you can see one extra.)
 - About **5 minutes** after the load stops, it scales back in to 1 (scale-in cooldown).
 
-> 💡 **Scale to zero**: with `--min-replicas 0` the app has zero replicas when idle, so the **cost is zero** (at the price of a cold start on the first request). Great for dev/test or occasionally used apps. We keep 1 in this lab.
+> 💡 **Scale to zero**: with `--min-replicas 0` the app has zero replicas when idle, so **replica execution is not charged**. ACR, PostgreSQL and logging can still incur charges (and the first request has a cold start). Great for dev/test or occasionally used apps. We keep 1 in this lab.
 
 > On the on-prem VM? You'd have bought servers for peak load up front, or waited weeks for more capacity.
 
@@ -125,10 +127,10 @@ az containerapp update \
   -o none
 
 az containerapp revision list -n $APP_NAME -g $RG \
-  --query "[].{name:name, active:properties.active, traffic:properties.trafficWeight}" -o table
+  --query "[].{name:name, active:properties.active, traffic:properties.trafficWeight, health:properties.healthState}" -o table
 ```
 
-The `green` revision shows **traffic 0**. The new version is ready without affecting any user.
+The `green` revision shows **traffic 0**. If `health` is still `None`, it is starting; repeat the query and **wait for `Healthy` before splitting traffic**. You can prepare the new version without affecting any user.
 
 ### (3) Canary: split traffic 80 / 20
 

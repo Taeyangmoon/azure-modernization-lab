@@ -141,6 +141,8 @@ curl -s $APP_URL/health
 
 You should see `"db_backend":"postgresql"` and `"version":"2.0-pg"`. Check in the browser too.
 
+Just after `az containerapp update` returns, the previous (`sqlite`) revision can still respond briefly. Wait for the new revision and check `/health` again; **confirm the PostgreSQL version before** continuing. If it does not switch, inspect the container logs.
+
 1. Confirm **all the items you entered locally in Lab 1 are there** (12 samples + your additions) → 🎉 migration succeeded
 2. Add a new item
 

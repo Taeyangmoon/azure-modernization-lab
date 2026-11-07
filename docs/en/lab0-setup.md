@@ -43,7 +43,7 @@ az account show --query "{name:name, id:id}" -o table
 On a fresh subscription you must register these providers (it's instant if they already are).
 
 ```bash
-for ns in Microsoft.App Microsoft.OperationalInsights Microsoft.ContainerRegistry Microsoft.DBforPostgreSQL; do
+for ns in Microsoft.App Microsoft.OperationalInsights Microsoft.ContainerRegistry Microsoft.DBforPostgreSQL Microsoft.ManagedIdentity; do
   az provider register --namespace $ns --wait
 done
 ```
@@ -63,6 +63,7 @@ SUFFIX=a1b2c3  RG=rg-aca-lab-a1b2c3  ACR=acrlaba1b2c3  APP=ca-inventory  PG=pg-l
 - On first run a **unique suffix** and a **DB password** are saved to `~/.aca-lab.env` (ACR and DB names must be globally unique).
 - **Re-run `source scripts/env.sh` in every new terminal.**
 - To change the region: `export LOCATION=japaneast` (default: `koreacentral`).
+- To isolate this run from an existing lab, set `export LAB_ENV_FILE="$HOME/.aca-lab-validation.env"` **before sourcing**. Use that same path in new terminals and delete only that file in Lab 8.
 
 ## ✅ Checkpoint
 

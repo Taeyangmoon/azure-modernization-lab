@@ -31,7 +31,7 @@ GitHub 의 Secret/Variable(`AZURE_*`, `ACR_NAME`, `APP_NAME`, `RESOURCE_GROUP`)�
 ## 8-3. 로컬 정리
 
 ```bash
-rm -f ~/.aca-lab.env          # 실습 변수(접미사, DB 비밀번호)
+rm -f "$LAB_ENV_FILE"        # 이번 실습 변수(접미사, DB 비밀번호)
 ```
 
 Codespaces 를 썼다면 <https://github.com/codespaces> 에서 Codespace 도 삭제합니다.

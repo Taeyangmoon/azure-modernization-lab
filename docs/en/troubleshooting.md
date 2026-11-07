@@ -9,7 +9,7 @@
 | `$RG` etc. are empty in a new terminal | Re-run `source scripts/env.sh` (variables reset per terminal) |
 | `az: 'containerapp' is not a known command` | `az extension add --name containerapp --upgrade` |
 | `The subscription is not registered to use namespace 'Microsoft.App'` | Run the provider registration in [Lab 0-3](lab0-setup.md#0-3-register-resource-providers) |
-| `AuthorizationFailed` | You need Contributor or higher on the subscription/resource group |
+| `AuthorizationFailed` | Resource creation requires Contributor; assigning roles in Labs 3/7 also requires role-assignment permission, such as Owner or User Access Administrator |
 | Name conflict (ACR, PostgreSQL) | Delete `~/.aca-lab.env` and `source scripts/env.sh` to generate a new suffix (delete already-created resources first) |
 
 ## Labs 1–2 (local)
@@ -69,6 +69,6 @@ docker push $ACR_NAME.azurecr.io/inventory:v1
 |---|---|
 | `AADSTS70025` / `AADSTS700213` / `No matching federated identity record` | The federated credential `subject` must exactly match the **`subject claim`** printed in the workflow's `Azure login` step (case-sensitive). Recently created repos use `repo:<owner>@<ID>/<repo>@<ID>:ref:refs/heads/main`, so use the `SUB_PREFIX` lookup from 7-1. Also make sure your branch is `main` |
 | `AuthorizationFailed` (workflow) | Check the service principal has Contributor on the resource group |
-| Push doesn't trigger the workflow | Changed files must be under `app/**`, or use **Run workflow** on the Actions tab |
+| Push doesn't trigger the workflow | Change files under `app/**` or `.github/workflows/deploy.yml`, or use **Run workflow** on the Actions tab |
 | Deployment succeeds but the page doesn't change | Multiple revision mode is still on → `az containerapp revision set-mode -n $APP_NAME -g $RG --mode single` |
 | `gh secret set` returns 403 | Codespaces token permission issue. Use the web UI |

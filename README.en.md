@@ -95,7 +95,7 @@ Stuck? → [Troubleshooting](docs/en/troubleshooting.md)
 
 ## Prerequisites
 
-- An **Azure subscription** (Contributor or higher, able to create resource groups)
+- An **Azure subscription** with Contributor access to create resources **and permission to assign roles** (for example, Owner, or Contributor + User Access Administrator). Contributor alone cannot grant the Managed Identity `AcrPull` role in Lab 3.
 - A **GitHub account** (Codespaces recommended — nothing to install)
 - (If working locally) Python 3.10+, Azure CLI 2.60+, Docker (optional), Git
 

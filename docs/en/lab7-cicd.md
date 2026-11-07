@@ -17,7 +17,7 @@ sequenceDiagram
   GH->>AAD: present OIDC token (no password)
   AAD-->>GH: Azure access token
   GH->>ACR: az acr build (image tag = commit SHA)
-  GH->>ACA: az containerapp update --image ...@SHA
+  GH->>ACA: az containerapp update --image ...:SHA
   ACA-->>Dev: new revision gets 100% traffic
 ```
 
@@ -94,7 +94,8 @@ cp solution/workflows/deploy.yml .github/workflows/deploy.yml
 Open the file and read each step (login → `az acr build` → `az containerapp update`).
 
 - The image tag is the **commit SHA** → you can trace which code is deployed, and rollbacks are unambiguous.
-- `paths: ["app/**"]` → deploys only when app code changes.
+- `paths: ["app/**", ".github/workflows/deploy.yml"]` → deploys when app code or the deployment workflow changes.
+- `APP_VERSION` is also set to the commit SHA. The final step checks that `/health` is healthy and serves that exact commit; a successful Azure command alone is not enough.
 
 ## 7-4. Change code → push → automatic deployment
 
@@ -131,7 +132,7 @@ az containerapp revision list -n $APP_NAME -g $RG \
   --query "[].{name:name, image:properties.template.containers[0].image, traffic:properties.trafficWeight}" -o table
 ```
 
-A new revision whose image tag is the **commit SHA** should hold 100% of traffic. Refresh the browser to see the new title.
+A new revision whose image tag is the **commit SHA** should hold 100% of traffic. Refresh the browser to see the new title and commit SHA version.
 
 ## ✅ Checkpoint
 - [ ] The Actions workflow succeeded (green check).

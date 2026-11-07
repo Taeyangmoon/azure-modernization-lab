@@ -9,7 +9,7 @@
 | 새 터미널에서 `$RG` 등이 비어 있음 | `source scripts/env.sh` 를 다시 실행 (변수는 터미널마다 초기화됨) |
 | `az: 'containerapp' is not a known command` | `az extension add --name containerapp --upgrade` |
 | `The subscription is not registered to use namespace 'Microsoft.App'` | [Lab 0-3](lab0-setup.md#0-3-resource-provider-등록) 의 Provider 등록 실행 |
-| `AuthorizationFailed` | 구독/리소스 그룹에 Contributor 이상 권한이 필요 |
+| `AuthorizationFailed` | 리소스 생성은 Contributor, Lab 3/7의 역할 할당은 Owner 또는 User Access Administrator 등의 역할 할당 권한도 필요 |
 | 이름 중복 오류 (ACR, PostgreSQL) | `~/.aca-lab.env` 를 지우고 `source scripts/env.sh` 로 새 접미사 생성 (이미 만든 리소스가 있으면 먼저 삭제) |
 
 ## Lab 1~2 (로컬)
@@ -69,6 +69,6 @@ docker push $ACR_NAME.azurecr.io/inventory:v1
 |---|---|
 | `AADSTS70025` / `AADSTS700213` / `No matching federated identity record` | Federated Credential 의 `subject` 가 워크플로 로그(`Azure login` 단계)의 **`subject claim`** 과 정확히 일치해야 함 (대소문자 포함). 최근 만든 저장소는 `repo:<소유자>@<ID>/<저장소>@<ID>:ref:refs/heads/main` 형태이므로 7-1 의 `SUB_PREFIX` 조회 방법을 사용. 브랜치가 `main` 인지도 확인 |
 | `AuthorizationFailed` (워크플로) | 서비스 주체에 리소스 그룹 Contributor 역할 할당 확인 |
-| 푸시해도 워크플로가 안 돎 | 변경 파일이 `app/**` 에 있어야 함. 또는 Actions 탭에서 **Run workflow** 수동 실행 |
+| 푸시해도 워크플로가 안 돎 | 변경 파일이 `app/**` 또는 `.github/workflows/deploy.yml` 에 있어야 함. 또는 Actions 탭에서 **Run workflow** 수동 실행 |
 | 배포는 성공인데 화면이 안 바뀜 | 다중 리비전 모드가 남아 있음 → `az containerapp revision set-mode -n $APP_NAME -g $RG --mode single` |
 | `gh secret set` 이 403 | Codespaces 토큰 권한 문제. 웹 UI 로 등록 |

@@ -7,7 +7,7 @@
 # 최초 1회 실행 시 고유 접미사(suffix)와 DB 비밀번호를 생성해 ~/.aca-lab.env 에 저장하므로,
 # 터미널을 다시 열어도 같은 이름/비밀번호가 재사용됩니다.
 
-LAB_ENV_FILE="${HOME}/.aca-lab.env"
+LAB_ENV_FILE="${LAB_ENV_FILE:-${HOME}/.aca-lab.env}"
 
 if [ ! -f "$LAB_ENV_FILE" ]; then
   SUFFIX="$(openssl rand -hex 3)"                      # e.g. a1b2c3 (keeps ACR/DB names globally unique / 이름 중복 방지)
@@ -21,7 +21,7 @@ fi
 # shellcheck disable=SC1090
 source "$LAB_ENV_FILE"
 
-export LOCATION="koreacentral"
+export LOCATION="${LOCATION:-koreacentral}"
 export RG="rg-aca-lab-${SUFFIX}"
 export ACR_NAME="acrlab${SUFFIX}"
 export LAW_NAME="law-aca-lab"

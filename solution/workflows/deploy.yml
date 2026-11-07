@@ -4,12 +4,16 @@ name: Deploy to Azure Container Apps
 on:
   push:
     branches: [main]
-    paths: ["app/**"]
+    paths: ["app/**", ".github/workflows/deploy.yml"]
   workflow_dispatch:
 
 permissions:
   id-token: write   # Azure 와 OIDC(비밀번호 없는) 로그인에 필요
   contents: read
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
 
 env:
   IMAGE_NAME: inventory
@@ -39,11 +43,24 @@ jobs:
           az containerapp update \
             --name "${{ vars.APP_NAME }}" \
             --resource-group "${{ vars.RESOURCE_GROUP }}" \
-            --image "${{ vars.ACR_NAME }}.azurecr.io/$IMAGE_NAME:${{ github.sha }}"
+            --image "${{ vars.ACR_NAME }}.azurecr.io/$IMAGE_NAME:${{ github.sha }}" \
+            --set-env-vars APP_VERSION="${{ github.sha }}" \
+            -o none
 
-      - name: Show app URL
+      - name: Verify deployed app
         run: |
-          az containerapp show \
+          APP_FQDN=$(az containerapp show \
             --name "${{ vars.APP_NAME }}" \
             --resource-group "${{ vars.RESOURCE_GROUP }}" \
-            --query "properties.configuration.ingress.fqdn" -o tsv
+            --query "properties.configuration.ingress.fqdn" -o tsv)
+          echo "https://$APP_FQDN"
+          for attempt in $(seq 1 24); do
+            if curl --fail --silent --show-error --max-time 15 "https://$APP_FQDN/health" |
+              python3 -c 'import json, os, sys; body = json.load(sys.stdin); print(body); sys.exit(0 if body.get("status") == "ok" and body.get("version") == os.environ["GITHUB_SHA"] else 1)'; then
+              exit 0
+            fi
+            echo "Deployment not healthy at the expected commit yet (attempt $attempt/24)" >&2
+            sleep 5
+          done
+          echo "Deployed app did not become healthy at commit $GITHUB_SHA" >&2
+          exit 1

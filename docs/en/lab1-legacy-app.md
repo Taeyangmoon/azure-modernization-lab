@@ -8,7 +8,7 @@
 
 ## 1-1. Run the app
 
-The `app/` folder is the app as it was operated on the on-prem VM.
+The `app/` folder is the app as it was operated on the on-prem VM. Start the commands below at the **repo root**.
 
 ```bash
 cd app
@@ -54,7 +54,7 @@ Open `app/config.py` and `app/app.py` and answer:
 | 1. Where is the DB path defined? | `DATABASE_URL` in `config.py` | You must edit code per environment. Any password would be committed. |
 | 2. Where do logs go? | `RotatingFileHandler` at the top of `app.py` | Containers disappear at any time, taking files with them. Log collectors can't see them. |
 | 3. Where is data stored? | `data/inventory.db` | On restart/scale-out data is lost or differs per instance. |
-| 4. Which server runs it? | `app.run(...)` | The Flask dev server isn't for production (single-threaded, security/perf). |
+| 4. Which server runs it? | `app.run(...)` | The Flask dev server isn't for production (operational reliability, security/perf). |
 | 5. How do you change settings? | version / banner color | Edit code → redeploy. |
 
 ## 1-4. Through the Twelve-Factor lens
@@ -69,6 +69,8 @@ Open `app/config.py` and `app/app.py` and answer:
 ## 1-5. Stop the app
 
 Press `Ctrl + C` in the terminal running the app.
+
+In the terminal where you ran `cd app`, run `cd ..` to return to the **repo root**. Commands in the following labs also start at the repo root.
 
 ## ✅ Checkpoint
 - [ ] The app opens in the browser and you can add items.

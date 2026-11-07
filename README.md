@@ -93,7 +93,7 @@ flowchart LR
 
 ## 사전 요구 사항
 
-- **Azure 구독** (리소스 그룹을 만들 수 있는 Contributor 이상 권한)
+- **Azure 구독**: 리소스 생성용 Contributor 권한과 **역할 할당 권한**(예: Owner, 또는 Contributor + User Access Administrator)이 필요합니다. Lab 3에서 Managed Identity에 `AcrPull` 을 부여하므로 Contributor만으로는 부족합니다.
 - **GitHub 계정** (Codespaces 사용 권장 — 별도 설치 불필요)
 - (로컬에서 진행할 경우) Python 3.10+, Azure CLI 2.60+, Docker(선택), Git
 

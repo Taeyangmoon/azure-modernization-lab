@@ -17,7 +17,7 @@ sequenceDiagram
   GH->>AAD: OIDC 토큰 제시 (비밀번호 없음)
   AAD-->>GH: Azure 액세스 토큰
   GH->>ACR: az acr build (이미지 태그 = 커밋 SHA)
-  GH->>ACA: az containerapp update --image ...@SHA
+  GH->>ACA: az containerapp update --image ...:SHA
   ACA-->>Dev: 새 리비전 100% 트래픽
 ```
 
@@ -94,7 +94,8 @@ cp solution/workflows/deploy.yml .github/workflows/deploy.yml
 파일을 열어 각 단계(로그인 → `az acr build` → `az containerapp update`)를 읽어 보세요.
 
 - 이미지 태그는 **커밋 SHA** 입니다 → 어떤 코드가 배포되었는지 추적 가능, 롤백도 명확.
-- `paths: ["app/**"]` → 앱 코드가 바뀔 때만 배포.
+- `paths: ["app/**", ".github/workflows/deploy.yml"]` → 앱 코드 또는 배포 워크플로가 바뀔 때 배포.
+- `APP_VERSION` 도 커밋 SHA 로 설정하고, 마지막 단계에서 `/health` 의 상태와 버전이 해당 커밋인지 확인합니다. Azure 명령이 성공해도 앱이 비정상이면 워크플로가 실패합니다.
 
 ## 7-4. 코드 수정 → 푸시 → 자동 배포
 
@@ -131,7 +132,7 @@ az containerapp revision list -n $APP_NAME -g $RG \
   --query "[].{name:name, image:properties.template.containers[0].image, traffic:properties.trafficWeight}" -o table
 ```
 
-이미지 태그가 **커밋 SHA** 인 새 리비전이 100% 트래픽을 받고 있어야 합니다. 브라우저를 새로고침하면 바뀐 제목이 보입니다.
+이미지 태그가 **커밋 SHA** 인 새 리비전이 100% 트래픽을 받고 있어야 합니다. 브라우저를 새로고침하면 바뀐 제목과 커밋 SHA 버전이 보입니다.
 
 ## ✅ 체크포인트
 - [ ] Actions 워크플로가 성공(초록 체크)했다.

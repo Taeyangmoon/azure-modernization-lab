@@ -31,7 +31,7 @@ Also remove the GitHub secrets/variables (`AZURE_*`, `ACR_NAME`, `APP_NAME`, `RE
 ## 8-3. Local cleanup
 
 ```bash
-rm -f ~/.aca-lab.env          # lab variables (suffix, DB password)
+rm -f "$LAB_ENV_FILE"        # this run's lab variables (suffix, DB password)
 ```
 
 If you used Codespaces, also delete the codespace at <https://github.com/codespaces>.
